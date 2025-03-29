@@ -1,16 +1,11 @@
 import React from "react";
 
-
-
-const curdate = new Date();
-const year = curdate.getFullYear();
-
-function Footer(){
-    return (
-    <footer>
-    <p>Created by bleh</p>
-    <p>Copyright {year}</p>
+function Footer() {
+  return (
+    <footer className="footer">
+      <p>© 2025 Created by Aarya and Mrinali.</p>
     </footer>
-    );
+  );
 }
-export default Footer;
+
+export default Footer;
