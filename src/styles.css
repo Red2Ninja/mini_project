@@ -1,79 +1,67 @@
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-}
 body {
-  background: #121212;
+  margin: 0;
+  padding: 0;
+  background-color: #0e0e0e;
   color: white;
-  padding: 20px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  display: flex;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+}
+.illustration {
+  width: 400px;
+  height: auto;
+  flex-shrink: 0;
+}
+.content {
+  flex-grow: 1;
+  margin-left: 40px;
+  text-align: left;
+}
+.heading, .subtext {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  border-bottom: 2px solid white;
+  padding-bottom: 20px;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+.subtext {
+  font-size: 1.2rem;
+  color: #bbb;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.buttons {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
+  gap: 15px;
   align-items: center;
-  min-height: 100vh;
 }
-
-.header {
-  background: #1e1e1e;
-  width: 100%;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.header-title {
-  color: #f5ba13;
-  font-size: 24px;
-}
-
-.note {
-  background: #222;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  width: 320px;
-  margin: 20px;
-  text-align: center;
-}
-
-.note h1 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: #f5ba13;
-}
-
-.note p {
-  font-size: 1em;
-  color: #bbb;
-}
-
 .btn {
-  display: block;
+  padding: 15px;
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+  max-width: 300px;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 1.2rem;
   cursor: pointer;
+  text-align: center;
 }
-
-.primary {
-  background: #f5ba13;
-  color: black;
-}
-
-.secondary {
-  background: #444;
+.btn-members {
+  background-color: rgb(27, 26, 26);
   color: white;
 }
-
-.footer {
-  text-align: center;
-  margin-top: auto;
-  padding: 10px;
-  font-size: 14px;
-  color: #888;
+.btn-board {
+  background-color:whitesmoke;
+  color: black;
 }
