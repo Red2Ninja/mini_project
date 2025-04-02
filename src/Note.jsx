@@ -7,8 +7,8 @@ function Note() {
     <div className="note">
       <h1>Automate Club Attendance</h1>
       <p>Track attendance and night slips seamlessly.</p>
-      <button className="btn primary" onClick={() => navigate("/member")}>Members</button>
-      <button className="btn secondary" onClick={() => navigate("/Secretary")}>Board</button>
+      <button className="btn primary" onClick={() => navigate("/memberform")}>Members</button>
+      <button className="btn secondary" onClick={() => navigate("/BoardForm")}>Board</button>
 
     </div>
   );
