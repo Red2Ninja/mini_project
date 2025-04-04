@@ -1,79 +1,87 @@
 import React, { useState, useEffect } from "react";
 import Announcements from "./Announcements";
-import { members, getNightSlipDetails, markAsApplied } from "./memberData";
+import { getNightSlipDetails, markAsApplied, getAnnouncements, getMembers } from "./memberData";
 import "./styles.css";
 
 function MemberDashboard() {
+  const [announcements, setAnnouncements] = useState([]);
   const [applied, setApplied] = useState(false);
   const [nightSlipList, setNightSlipList] = useState([]);
-  const [memberList, setMemberList] = useState(members);
+  const [memberList, setMemberList] = useState([]);
 
+  useEffect(function() {
+    setAnnouncements(getAnnouncements());
 
-  useEffect(function () {
-    var currentUser = members.find(function (member) {
-      return member.name === name;
+    var currentUser = getMembers().find(function(member) {
+      return member.name === "CurrentUser";
     });
 
     if (currentUser && currentUser.applied) {
       setApplied(true);
-      alert("You have successfully applied!");
     }
-    setMemberList(members);
-    setNightSlipList(getNightSlipDetails()); // Fix: Set state correctly
 
+    setMemberList(getMembers());
+    setNightSlipList(getNightSlipDetails());
+
+    var interval = setInterval(function() {
+      setAnnouncements(getAnnouncements());
+      setNightSlipList(getNightSlipDetails());
+    }, 1000);
+
+    return function() {
+      clearInterval(interval);
+    };
   }, []);
 
- /* function handleApply() {
-    var currentUser = members.find(function (member) {
-      return member.name === "CurrentUser";
-    });*/
+  function handleApply() {
+    if (nightSlipList.length === 0) {
+      alert("You cannot apply because there are no night slip details available.");
+      return;
+    }
 
-    function handleApply() {
-        var updatedMembers = memberList.map(function (member) {
-          if (member.name === "CurrentUser") {
-            return { ...member, applied: true };
-          }
-          return member;
-        });
+    var updatedMembers = memberList.map(function(member) {
+      if (member.name === "CurrentUser") {
+        return Object.assign({}, member, { applied: true });
+      }
+      return member;
+    });
 
-        setMemberList(updatedMembers);
+    setMemberList(updatedMembers);
     markAsApplied("CurrentUser");
+    setApplied(true);
     alert("You have successfully applied!");
   }
 
-    
-  
-   // Fetch night slips
-  
   function renderNightSlipDetails() {
-    if (!nightSlipList || nightSlipList.length === 0) {
-      return <p>No night slip details available.</p>;
+    if (nightSlipList.length === 0) {
+      return React.createElement('p', null, 'No night slip details available.');
     }
 
-    return nightSlipList.map((nightSlip, index) => ( // Loop through nightSlipDetails instead of treating it as a single object
-        <div key={index} className="night-slip-box">
-          <p><strong>School:</strong> {nightSlip.school}</p>
-          <p><strong>Venue Type:</strong> {nightSlip.venueType}</p>
-          <p><strong>Building:</strong> {nightSlip.building}</p>
-          <p><strong>Venue:</strong> {nightSlip.venue}</p>
-          <p><strong>Faculty Coordinator:</strong> {nightSlip.faculty}</p>
-          <p><strong>Work:</strong> {nightSlip.work}</p>
-          <p><strong>Brief:</strong> {nightSlip.brief}</p>
-          <p><strong>From:</strong> {nightSlip.fromDate}</p>
-          <p><strong>To:</strong> {nightSlip.toDate}</p>
-          <p><strong>Time:</strong> {nightSlip.time}</p>
+    return nightSlipList.map(function(slip) {
+      return (
+        <div key={slip.id} className="night-slip-box">
+          <p><strong>School:</strong> {slip.school}</p>
+          <p><strong>Venue Type:</strong> {slip.venueType}</p>
+          <p><strong>Building:</strong> {slip.building}</p>
+          <p><strong>Venue:</strong> {slip.venue}</p>
+          <p><strong>Faculty Coordinator:</strong> {slip.faculty}</p>
+          <p><strong>Work:</strong> {slip.work}</p>
+          <p><strong>Brief:</strong> {slip.brief}</p>
+          <p><strong>From:</strong> {slip.fromDate} at {slip.fromTime}</p>
+          <p><strong>To:</strong> {slip.toDate} at {slip.toTime}</p>
         </div>
-      ));
+      );
+    });
   }
 
   return (
     <div className="dashboard-container">
       <h2>Member Dashboard</h2>
-      <Announcements />
+      <Announcements announcements={announcements} />
       <h3>🌙 Night Slip Details</h3>
       {renderNightSlipDetails()}
-      <button onClick={handleApply} className="apply-btn">Applied
-        
+      <button onClick={handleApply} className="apply-btn" disabled={nightSlipList.length === 0}>
+        {applied ? "Already Applied" : "Apply"}
       </button>
     </div>
   );

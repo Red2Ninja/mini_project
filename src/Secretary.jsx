@@ -1,12 +1,26 @@
 import React, { useState } from "react";
-import members from "./memberData";
+import { members } from "./memberData";
 
 function SecretaryDashboard() {
   const [query, setQuery] = useState("");
 
-  const filteredMembers = members.filter(member => 
-    member.name.toLowerCase().includes(query.toLowerCase())
-  );
+  function handleQueryChange(event) {
+    setQuery(event.target.value);
+  }
+
+  function filterMembers(member) {
+    return member.name.toLowerCase().includes(query.toLowerCase());
+  }
+
+  var filteredMembers = members.filter(filterMembers);
+
+  function renderMember(member) {
+    return (
+      <li key={member.id}>
+        {member.name} - {member.applied ? "✅ Applied" : "❌ Not Applied"}
+      </li>
+    );
+  }
 
   return (
     <div>
@@ -14,12 +28,10 @@ function SecretaryDashboard() {
       <input
         type="text"
         placeholder="Search members..."
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleQueryChange}
       />
       <ul>
-        {filteredMembers.map((member) => (
-          <li key={member.id}>{member.name} - {member.applied ? "✅ Applied" : "❌ Not Applied"}</li>
-        ))}
+        {filteredMembers.map(renderMember)}
       </ul>
     </div>
   );

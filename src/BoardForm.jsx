@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./styles.css";
 
 function BoardForm() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+
+  function handlePasswordChange(event) {
+    setPassword(event.target.value);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     
-    if (!email || !password ) {
+    if (!email || !password) {
       setError("All fields are required.");
       return;
     }
@@ -29,39 +36,29 @@ function BoardForm() {
     }
 
     setError("");
-    setError("");
-    alert("Login Successful!"); 
-    navigate("/SecretaryDashboard"); 
+    alert("Login Successful!");
+    navigate("/SecretaryDashboard");
   }
 
-  function handleEmailChange(event) {
-    setEmail(event.target.value);
-  }
-
-  function handlePasswordChange(event) {
-    setPassword(event.target.value);
-  }
-
- 
   return (
-    <div>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-            <input type="email"
-                   placeholder="Email Address"
-                   value={email}
-                   onChange = {handleEmailChange}
-            />
-            <input 
-                type="password" 
-                placeholder="Password" 
-                value={password} 
-                onChange={handlePasswordChange} 
-            />
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit">Login</button>
-        </form>
-        
+    <div className="board-form-container">
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="email" 
+          placeholder="Email Address" 
+          value={email} 
+          onChange={handleEmailChange} 
+        />
+        <input 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={handlePasswordChange} 
+        />
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
